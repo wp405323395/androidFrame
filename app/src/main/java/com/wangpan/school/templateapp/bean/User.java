@@ -38,32 +38,4 @@ public class User {
         this.age = age;
     }
 
-//    public User(long id, String cupSize, int age) {
-//        this.id = id;
-//        this.cupSize = cupSize;
-//        this.age = age;
-//    }
-//
-//    public User() {
-//    }
-//    public long getId() {
-//        return this.id;
-//    }
-//    public void setId(long id) {
-//        this.id = id;
-//    }
-//    public String getCupSize() {
-//        return this.cupSize;
-//    }
-//    public void setCupSize(String cupSize) {
-//        this.cupSize = cupSize;
-//    }
-//    public int getAge() {
-//        return this.age;
-//    }
-//    public void setAge(int age) {
-//        this.age = age;
-//    }
-
-    
 }
