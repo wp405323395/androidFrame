@@ -5,15 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.wangpan.school.templateapp.bean.User;
+import com.wangpan.school.templateapp.greendao.Dbinitia;
 import com.wangpan.school.templateapp.net.response.HttpResult;
 import com.wangpan.school.templateapp.net.retrofit.RetrofitUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        loopRequest();
+        //loopRequest();
         singleRequest();
     }
 
@@ -40,27 +41,31 @@ public class MainActivity extends AppCompatActivity {
                     private Disposable mDisposable;
                     @Override
                     public void onSubscribe(Disposable d) {
-                        Log.i("wangwang","onSubscribe");
+
                         mDisposable = d;
                     }
 
                     @Override
                     public void onNext(HttpResult<List<User>> value) {
-                        Log.i("wangwang","onNext");
+
                         List<User> users = value.getData();
-                        Log.i("wangpanapan","kdkdkd");
+                        List<User> usersfromDb = MyApplication.getDaoSession().getUserDao().loadAll();
+                        if(usersfromDb.size() == 0) {
+                            MyApplication.getDaoSession().getUserDao().insertInTx(users);
+                        }
+
                         mDisposable.dispose();//注销
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("wangwang","onError");
+
                         mDisposable.dispose();//注销
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.i("wangwang","onComplete");
+
                     }
                 });
     }
